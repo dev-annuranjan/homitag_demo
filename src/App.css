@@ -116,6 +116,7 @@ body{
   text-align: center;
   letter-spacing: 2px;
   border-radius: 0px;
+  padding-left: 10px;
 }
 .RegisterFieldsRow span{
   position: absolute;

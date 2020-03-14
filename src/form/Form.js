@@ -7,22 +7,24 @@ import moment from "moment";
 import { EmailRegex, PasswordRegex, CountryList } from "../utilities/Utility";
 import CloseIcon from "../assets/images/close.svg";
 
-const DEFAULT_SELECT_VALUE = "NONE"
+const DEFAULT_SELECT_VALUE = "NONE";
+const initState = {
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Password: "",
+    ProfilePicture: "",
+    PhoneNumber: "",
+    Birthday: null,
+    Country: DEFAULT_SELECT_VALUE
+}
+
 export default function Form({ history }) {
 
     const userName = useSelector(state => state.loggedInUserName);
     const [showAlert, setShowAlert] = useState(false)
 
-    const [state, setState] = useState({
-        FirstName: "",
-        LastName: "",
-        Email: "",
-        Password: "",
-        ProfilePicture: "",
-        PhoneNumber: "",
-        Birthday: null,
-        Country: DEFAULT_SELECT_VALUE
-    })
+    const [state, setState] = useState(initState)
 
     const [isTouched, setIsTouched] = useState({
         isFirstNameTouched: false,
@@ -78,8 +80,12 @@ export default function Form({ history }) {
     }
 
     const birthdayHandler = event => {
-        const expDate = event ? moment(event).format("MM/DD/YYYY") : null;
-        setState({ ...state, IdentityVerificationExpirationDate: expDate });
+        const bday = event ? moment(event).format("MM/DD/YYYY") : null;
+        setState({ ...state, Birthday: bday });
+    }
+
+    const countryChangeHandler = event => {
+        setState({ ...state, Country: event.target.value });
     }
 
     const validateField = (fieldName, fieldValue) => {
@@ -96,8 +102,34 @@ export default function Form({ history }) {
         }
     }
 
+    const validateForm = () => {
+        let isFormValid = true;
+        const errors = {};
+        Object.keys(state).forEach(item => {
+            const isFieldValid = validateField(item, state[item]);
+            isFormValid = isFormValid && isFieldValid;
+            errors[`has${item}Error`] = !isFieldValid;
+        })
+
+        return { isFormValid, errors }
+    }
+
     const submitForm = () => {
-        setShowAlert(true);
+        const { isFormValid, errors } = validateForm();
+
+        if (isFormValid) {
+            console.table(state);
+            setShowAlert(true);
+            setState(initState);
+        } else {
+            setIsTouched({
+                isFirstNameTouched: true,
+                isLastNameTouched: true,
+                isEmailTouched: true,
+                isPasswordTouched: true
+            });
+            setHasError(errors);
+        }
     }
 
     const alertBtnHandler = () => {
@@ -132,13 +164,8 @@ export default function Form({ history }) {
                     <div className="RegistrationWrapper">
 
 
-
-
-
                         <div className="RegisterFieldsRow">
-                            <label>
-                                First name
-                </label>
+                            <label>First name*</label>
                             <input
                                 className={`${isTouched.isFirstNameTouched && hasError.hasFirstNameError ? " FieldHasError" : ""}`}
                                 id="FirstName"
@@ -152,9 +179,7 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Last name
-                </label>
+                            <label>Last name*</label>
                             <input
                                 className={`${isTouched.isLastNameTouched && hasError.hasLastNameError ? " FieldHasError" : ""}`}
                                 id="LastName"
@@ -168,9 +193,7 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Email
-                </label>
+                            <label>Email*</label>
                             <input
                                 className={`${isTouched.isEmailTouched && hasError.hasEmailError ? " FieldHasError" : ""}`}
                                 id="Email"
@@ -185,10 +208,9 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Password
-                </label>
+                            <label>Password*</label>
                             <input
+                                type="password"
                                 className={`${isTouched.isPasswordTouched && hasError.hasPasswordError ? " FieldHasError" : ""}`}
                                 id="Password"
                                 value={state.Password}
@@ -201,17 +223,15 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Profile picture
-                </label>
+                            <label>Profile picture</label>
                             {state.ProfilePicture ?
                                 (<div className="PictureAdded">
-                                    <div onClick={removeProfileImage} className="RemovePictureIcons"><img src={CloseIcon} alt="img" /></div>
-                                    <img src={state.ProfilePicture} />
+                                    <div onClick={removeProfileImage} className="RemovePictureIcons"><img src={CloseIcon} alt="close btn" /></div>
+                                    <img src={state.ProfilePicture} alt="profile pic" />
                                 </div>)
                                 :
                                 <div className="ImageInput">
-                                    <div class="ImageLabel">Upload A Profile Picture</div>
+                                    <div className="ImageLabel">Upload A Profile Picture</div>
                                     <input
                                         type="file"
                                         onChange={profilePictureHandler}
@@ -222,9 +242,7 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Phone number
-                </label>
+                            <label>Phone number</label>
                             <MaskedInput
                                 mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
                                 id="PhoneNumber"
@@ -235,16 +253,14 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Birthday
-                </label>
+                            <label>Birthday</label>
                             <DatePicker
                                 autoOk
                                 disableFuture
                                 fullWidth
                                 clearable
                                 format="MM/dd/yyyy"
-                                value={state.IdentityVerificationExpirationDate}
+                                value={state.Birthday}
                                 onChange={birthdayHandler}
                                 animateYearScrolling={false}
                                 leftArrowIcon={<i className="zmdi zmdi-arrow-back" />}
@@ -255,21 +271,20 @@ export default function Form({ history }) {
                         </div>
 
                         <div className="RegisterFieldsRow">
-                            <label>
-                                Country
-                </label>
+                            <label>Country</label>
                             <select
                                 name="Country"
                                 id="Country"
-                                value={state.Country}
+                                defaultValue={state.Country}
+                                onChange={countryChangeHandler}
                             >
-                                <option value={DEFAULT_SELECT_VALUE} selected disabled>{"Select Country"}</option>
-                                {Object.keys(CountryList).map(country => <option value={country} key={country}>{CountryList[country]}</option>)}
+                                <option value={DEFAULT_SELECT_VALUE} disabled>{"Select Country"}</option>
+                                {CountryList.map(country => <option value={country.value} key={country.value}>{country.name}</option>)}
                             </select>
                         </div>
 
                         <div className="SubmitButtonRow">
-                            <button onClick={submitForm}>Submit Form</button>
+                            <button onClick={submitForm} className="active">Submit Form</button>
                         </div>
 
                     </div >
