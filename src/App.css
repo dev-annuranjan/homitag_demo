@@ -1,18 +1,261 @@
+body{
+  background-color: #eff1f3;
+  font-family: 'Source Serif Pro', serif;
+}
+.FlexContainer{
+  display: flex;
+  height: 100vh;
+}
 .LandingPage {
+  width: 1200px;
+  max-width: 90%;
+  margin: auto;
+  background-color: #ffffff;
+  padding: 30px 0px;
+  box-shadow: 0px 70px 40px -60px rgba(0,0,0,0.1);
+}
+.FormWrapper{
+  width: 500px;
+  margin: auto;
+}
+.FormWrapperHeading{
+  font-size: 42px;
   text-align: center;
+  margin: 20px 0px 50px 0px;
 }
-.LandingPage__Input {
+.FormRow{
 
 }
-
-.FieldHasError {
-  border: 1px solid red;
-  border-radius: 10px;
-  background-color: rgb(255, 189, 189);
+ .FieldInput{
+  width: 100%;
+  border: 1px solid #ddd;
+  height: 52px;
+  outline: none;
+  margin: 15px 0px;
+  font-family: 'Source Serif Pro', serif;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+ }
+.FieldLabel{
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    color: #404040;
 }
-.Alert {}
-.Alert__Title{}
-.Alert__Message {}
-.Alert__BtnSection{
+ 
+.SubmitButtonRow{
+  text-align: center;
+  margin: 50px 0px 30px 0px;
+}
+.SubmitButtonRow button{
+  background: #333;
+  border: 0px;
+  font-family: 'Source Serif Pro', serif;
+  color: #fff;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 20px 50px;
+  outline: none;
 
 }
+.SubmitButtonRow button.active{
+  background: #36bf6d;
+  cursor: pointer;
+}
+
+
+.WelcomeWrapper{
+  background: #e8e8e8;
+  color: #000;
+  padding: 40px;
+}
+.WelcomeNote{
+  font-size: 42px;
+}
+.WelcomeNote span{
+  display: block;
+  font-size: 24px;
+  margin-top: 10px;
+  color: #666;
+}
+.SubWelcomeNote{
+  margin-top: 50px;
+  font-size: 19px;
+  color: #000;
+}
+.RegistrationWrapper{
+ flex: 1;
+ padding: 40px;
+}
+.LandingPage.RegistrationContainer{
+ padding: 0px;
+ display: flex;
+}
+.RegisterFieldsRow{
+  width: 500px;
+  margin: auto;
+  position: relative;
+}
+.RegisterFieldsRow label{
+  display: block;
+  text-align: left;
+  font-size: 16px;
+  color: #404040;
+}
+
+.RegisterFieldsRow input, .RegisterFieldsRow select{
+  width: 100%;
+  border: 1px solid #ddd;
+  height: 42px;
+  outline: none;
+  margin: 5px 0px;
+  font-family: 'Source Serif Pro', serif;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+  border-radius: 0px;
+}
+.RegisterFieldsRow span{
+  position: absolute;
+  background: #fff;
+  z-index: 9;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  box-shadow: 0px 10px 10px -10px rgba(0,0,0,0.1);
+  right: -3px;
+  bottom: -50px;
+  color: #989898;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+
+
+
+ 
+.RegisterFieldsRow span:after, .RegisterFieldsRow span:before {
+	bottom: 100%;
+    left: 94%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.RegisterFieldsRow span:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.RegisterFieldsRow span:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: #ddd;
+  border-width: 11px;
+  margin-left: -11px;
+}
+.RegisterFieldsRow input.FieldHasError{
+  background-image: url('../src/assets/images/alert.svg');
+  background-repeat: no-repeat;
+  background-size: 28px;
+  background-position: 98%;
+}
+.ImageInput{
+
+}
+.ImageInput .ImageLabel{
+  width: 100%;
+  border: 1px solid #ddd;
+  outline: none;
+  margin: 5px 0px;
+  font-family: 'Source Serif Pro', serif;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+  border-radius: 0px;
+  padding: 50px 0px;
+  position: absolute;
+  background: #fff;
+}
+.ImageInput input{
+  height: 123px;
+    opacity: 0;
+    position: relative;
+    z-index: 999;
+}
+ .PictureAdded{
+  width: 120px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  position: relative;
+  margin: 20px 0px 10px 0px;
+ }
+ .PictureAdded img{
+  display: inherit;
+  width: 100%;
+ }
+ .RemovePictureIcons{
+  width: 20px;
+  padding: 4px;
+  background: #ddd;
+  border-radius: 30px;
+  position: absolute;
+  right: -16px;
+  top: -16px;
+  cursor: pointer;
+ }
+ .MuiInput-underline:after, .MuiInput-underline::before{
+   display: none;
+ }
+ .MuiPickersBasePicker-container .MuiPickersToolbar-toolbar{
+  background: #bbbbbb;
+ }
+ .MuiPickersBasePicker-container .MuiPickersToolbarButton-toolbarBtn h6,  .MuiPickersBasePicker-container .MuiPickersToolbarButton-toolbarBtn h4{
+color: #000;
+ }
+ .RegistrationWrapper .SubmitButtonRow{
+  margin: 20px 0px 0px 0px;
+ }
+ .AlertModal{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ .AlertDialogue{
+  background: #fff;
+  box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.2);
+  padding: 40px 30px;
+  width: 500px;
+  text-align: center;
+ }
+ .AlertDialogue h3{
+  margin: 0px;
+  font-size: 30px;
+  text-align: center;
+ }
+ .AlertDialogue p{
+  text-align: center;
+ }
+ .AlertDialogue button{
+  background: #333;
+  border: 0px;
+  font-family: 'Source Serif Pro', serif;
+  color: #fff;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 15px 50px;
+  margin-top: 40px;
+  outline: none;
+  cursor: pointer;
+ }
