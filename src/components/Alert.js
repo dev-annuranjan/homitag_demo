@@ -13,7 +13,7 @@ export default function Alert({ title = "Title", message = "", showCancelButton 
             <div className="Alert__Title">{title}</div>
             <div className="Alert__Message">{message}</div>
 
-            <div>
+            <div className="Alert__BtnSection">
                 <button onClick={okBtnHandler}>Ok</button>
                 {showCancelButton &&
                     <button onClick={cancelBtnHandler ? cancelBtnHandler : () => { }}>Cancel</button>
