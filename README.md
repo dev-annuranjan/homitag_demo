@@ -1,5 +1,5 @@
 # Demo Application
-This is a demo application. The live site can be accessed at <a href="https://homitag-demo.herokuapp.com/"></a>
+This is a demo application. The live site can be accessed at <a href="https://homitag-demo.herokuapp.com/">here.</a>
 
 ## Features:
 The website/code demonstrates the following
