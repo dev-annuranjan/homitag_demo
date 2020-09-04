@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -12,13 +12,20 @@ import FormComponent from "./form";
 
 const store = createStore(reducer);
 
+const ProtectedRoute = () => {
+  const state= store.getState();
+  return state.loggedInUserName ? <Route path="/form" component={FormComponent} /> : <Redirect to="/" />
+}
+
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Route path="/" exact component={LandingPage} />
-          <Route path="/form" component={FormComponent} />
+          <Switch>
+            <Route path="/" exact component={LandingPage} />
+            <ProtectedRoute path="/form" component={FormComponent} />
+          </Switch>
         </MuiPickersUtilsProvider>
       </BrowserRouter>
     </Provider>

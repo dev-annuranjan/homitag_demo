@@ -1,30 +1,35 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import MaskedInput from "react-text-mask";
 import { DatePicker } from "@material-ui/pickers";
 import moment from "moment";
 
 import { EmailRegex, PasswordRegex, CountryList } from "../utilities/Utility";
 import CloseIcon from "../assets/images/close.svg";
+import { setLoggedInUserName } from "../store/actions";
 
 const DEFAULT_SELECT_VALUE = "NONE";
-const initState = {
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Password: "",
-    ProfilePicture: "",
-    PhoneNumber: "",
-    Birthday: null,
-    Country: DEFAULT_SELECT_VALUE
+const initState = (userName) => {
+    debugger;
+    const user = userName? userName.split(' ') : "";
+    debugger;
+    return {
+        FirstName: user[0] || "",
+        LastName: user[1] || "",
+        Email: "",
+        Password: "",
+        ProfilePicture: "",
+        PhoneNumber: "",
+        Birthday: null,
+        Country: DEFAULT_SELECT_VALUE
+    }
 }
-
 export default function Form({ history }) {
-
     const userName = useSelector(state => state.loggedInUserName);
+    const dispatch = useDispatch();
     const [showAlert, setShowAlert] = useState(false)
 
-    const [state, setState] = useState(initState)
+    const [state, setState] = useState((()=>{ debugger; initState(userName)})());
 
     const [isTouched, setIsTouched] = useState({
         isFirstNameTouched: false,
@@ -116,7 +121,6 @@ export default function Form({ history }) {
 
     const submitForm = () => {
         const { isFormValid, errors } = validateForm();
-
         if (isFormValid) {
             console.table(state);
             setShowAlert(true);
@@ -134,6 +138,7 @@ export default function Form({ history }) {
 
     const alertBtnHandler = () => {
         setShowAlert(false);
+        dispatch(setLoggedInUserName(""));
         history.push("/");
     }
 
@@ -143,8 +148,26 @@ export default function Form({ history }) {
             {showAlert &&
                 <div className="AlertModal">
                     <div className="AlertDialogue">
-                        <h3>Registration successfully</h3>
+                        <h3>Registration successful</h3>
                         <p>You have successfully registered with us.</p>
+                        <h4>Your Details</h4>
+                        <p>
+                            <table className="modal-table">
+                                <tbody>
+                                    { Object.keys(state).map(item => {
+                                        return item === "Password"? "" : ( item === "ProfilePicture" ? 
+                                        <tr>
+                                            <th>{item}</th>
+                                            <td><img src={state[item]} alt="" className="modal-img"/></td>
+                                        </tr>
+                                        : <tr>
+                                            <th>{item}</th>
+                                            <td>{state[item]}</td>
+                                        </tr>)
+                                    })}
+                                </tbody>
+                            </table>
+                        </p>
                         <button onClick={alertBtnHandler}>Okay</button>
                     </div>
                 </div>
