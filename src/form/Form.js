@@ -122,7 +122,7 @@ export default function Form({ history }) {
     if (isFormValid) {
       console.table(state);
       setShowAlert(true);
-    //   setState(initState);
+      setState(initState);
     } else {
       setIsTouched({
         isFirstNameTouched: true,
@@ -137,7 +137,7 @@ export default function Form({ history }) {
   const alertBtnHandler = () => {
     setShowAlert(false);
     dispatch(setLoggedInUserName(""));
-    // history.push("/");
+    history.push("/");
   };
 debugger;
   return (
