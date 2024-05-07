@@ -14,7 +14,7 @@ export default function Landing({ history }) {
   const handleBtnClick = e => {
     e.preventDefault();
     if (name) {
-      dispatch(setLoggedInUserName(name));
+      dispatch(setLoggedInUserName(name.trim()));
       history.push("/form");
     }
   };

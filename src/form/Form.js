@@ -15,7 +15,7 @@ export default function Form({ history }) {
   const user = userName.split(" ");
   const initState = {
     FirstName: user[0] || "",
-    LastName: user[1] || "",
+    LastName: user.length > 1 ? user[user.length - 1] : "",
     Email: "",
     Password: "",
     ProfilePicture: "",
@@ -185,6 +185,7 @@ export default function Form({ history }) {
               Please fill the form to register with us.
             </div>
           </div>
+
           <div className="RegistrationWrapper">
             <div className="RegisterFieldsRow">
               <label>First name*</label>
